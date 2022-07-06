@@ -3,6 +3,10 @@ import json
 import sys
 import os
 
+def EnsureAIExists(ai_id,cmn):
+    if ai_id not in cmn["AI IDs"]:
+        cmn["AI IDs"][ai_id] = "Unused"
+
 def gettrigger(dir_main,cmn):
     ai_change_trigger = open(sys.argv[1] + "\\ai_change_trigger.bin","rb")
     rt = BinaryReader(ai_change_trigger.read())
@@ -24,6 +28,7 @@ def gettrigger(dir_main,cmn):
     for i in range(t_triggercount):
 
         t_bossid = rt.read_uint32()
+        EnsureAIExists(t_bossid,cmn)
         t_changeparamid = rt.read_uint8()
         t_hasparam = rt.read_uint8()
         t_unk1 = rt.read_uint8(2)
@@ -37,6 +42,7 @@ def gettrigger(dir_main,cmn):
             t_hasparam = "True"
 
             tp_bossid = rtp.read_uint32()
+            EnsureAIExists(tp_bossid,cmn)
             tp_changeparamid = rtp.read_uint8()
             tp_unk3 = rtp.read_uint8(3)
             tp_main_arts = rtp.read_uint16(4)
@@ -45,12 +51,14 @@ def gettrigger(dir_main,cmn):
             tp_flydmg = rtp.read_uint8(10)
             tp_float = rtp.read_float(3)
             tp_swapid = rtp.read_uint32(2)
+            EnsureAIExists(tp_swapid[0],cmn)
+            EnsureAIExists(tp_swapid[1],cmn)
             tp_defense_arts = rtp.read_uint8(4)
             tp_hact = rtp.read_uint8()
             tp_unk4 = rtp.read_uint8(11)
 
             t_param_data = {
-                cmn["Boss IDs"][tp_bossid] + " changes to " + cmn["Boss IDs"][tp_swapid[0]] + ", boss ID(s):": tp_swapid,
+                cmn["AI IDs"][tp_bossid] + " changes to " + cmn["AI IDs"][tp_swapid[0]] + ", AI ID(s):": tp_swapid,
                 "Unk 3": tp_unk3,
                 "Main Attacks IDs": tp_main_arts,
                 "Seize Attacks IDs": tp_seize_arts,
@@ -65,7 +73,7 @@ def gettrigger(dir_main,cmn):
         elif t_hasparam == 1: t_hasparam = "False" ## sometimes this shit is 2 (shakedown)
 
         t_buffer = {
-            "Boss ID": tp_bossid,
+            "AI ID": tp_bossid,
             "Change Param ID": t_changeparamid,
             "Has Parameter": t_hasparam,
             "Unk 1": t_unk1,
@@ -75,7 +83,7 @@ def gettrigger(dir_main,cmn):
             "Parameters": t_param_data
         }
         
-        wt_b = open(dir_trigger + "\\" + str(i) + "_" + cmn["Boss IDs"][t_bossid] + ".json","wt")
+        wt_b = open(dir_trigger + "\\" + str(i) + "_" + cmn["AI IDs"][t_bossid] + ".json","wt")
         wt_b.write(json.dumps(t_buffer,indent=3))
 
         

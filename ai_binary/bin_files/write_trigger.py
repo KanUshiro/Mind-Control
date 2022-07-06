@@ -4,7 +4,7 @@ def writetrigger(trigger,wt: BinaryReader,wtp: BinaryReader,param_jsonloads):
     if trigger["Has Parameter"] == "True":
         trigparam = 0
         partrig = trigger["Parameters"]
-        wtp.write_uint32(trigger["Boss ID"])
+        wtp.write_uint32(trigger["AI ID"])
         wtp.write_uint8(trigger["Change Param ID"])
         wtp.write_uint8(partrig["Unk 3"])
         wtp.write_uint16(partrig["Main Attacks IDs"])
@@ -23,7 +23,7 @@ def writetrigger(trigger,wt: BinaryReader,wtp: BinaryReader,param_jsonloads):
     elif trigger["Has Parameter"] == "False": trigparam = 1
     else: trigparam = trigger["Has Parameter"]
 
-    wt.write_uint32(trigger["Boss ID"])
+    wt.write_uint32(trigger["AI ID"])
     wt.write_uint8(trigger["Change Param ID"])
     wt.write_uint8(trigparam)
     wt.write_uint8(trigger["Unk 1"])

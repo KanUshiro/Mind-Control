@@ -28,7 +28,7 @@ def getbosses(cmn,dir_bosses):
         
         e_boss = {
             "Moveset Name": e_setname,
-            "Moveset ID": e_id,
+            "AI ID": e_id,
             "HP": e_hp,
             "Unk 1": e_unk1,
             "Main Attacks IDs": e_main_arts,
@@ -45,5 +45,5 @@ def getbosses(cmn,dir_bosses):
 
         we_b = open(dir_bosses + "\\" + str(e_id) + "_" + e_setname + ".json","wt")
         we_b.write(json.dumps(e_boss,indent=3))
-        cmn["Boss IDs"].update({e_id:e_setname})
-        cmn["Boss Count"] = e_bosscount
+        cmn["AI IDs"].update({e_id:e_setname})
+        cmn["Used AI Count"] = e_bosscount

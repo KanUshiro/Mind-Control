@@ -22,10 +22,10 @@ def getjson(rc):
     
     cmn = {
         "Game": "Yakuza 0/Kiwami 1/FOTNS",
-        "Boss Count": "",
+        "Used AI Count": "",
         "AI Change Trigger Count": "",
         "AI Change Param Count": "",
-        "Boss IDs": {}
+        "AI IDs": {}
     }
 
     enemy_ai_param.getbosses(cmn,dir_bosses)

@@ -45,16 +45,22 @@ def getbin(param):
     param_jsonloads = json.loads(param.read())
 
     # implement game TODO
-    moveset_count = param_jsonloads["Boss Count"]
+    moveset_count = param_jsonloads["Used AI Count"]
     we.write_uint32(moveset_count)
 
     ### enemy_ai_param.bin
 
-    for x in param_jsonloads["Boss IDs"]:
-        bossfilename = "{}_{}.json"
-        with open(os.path.join(sys.argv[1],"bosses",bossfilename.format(x,param_jsonloads["Boss IDs"][x]))) as h: boss = json.load(h)
+    #for x in param_jsonloads["AI IDs"]:
+    #    bossfilename = "{}_{}.json"
+    #    with open(os.path.join(sys.argv[1],"bosses",bossfilename.format(x,param_jsonloads["AI IDs"][x]))) as h: boss = json.load(h)
 
-        we.write_uint32(boss["Moveset ID"])
+    sorted_enemy = os.listdir(sys.argv[1] + "//bosses")
+    sorted_enemy.sort(key=natural_keys)
+
+    for file in sorted_enemy:
+        with open(os.path.join(sys.argv[1],"bosses",str(file))) as h: boss = json.load(h)
+
+        we.write_uint32(boss["AI ID"])
         we.write_uint32(boss["HP"])
         we.write_uint32(boss["Unk 1"])
         we.write_uint16(boss["Main Attacks IDs"])
